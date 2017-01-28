@@ -18,6 +18,15 @@ public class UrlService {
 		this.repo = repo;
 	}
 	
+	/** Shortcut for {@link #put(String, String)} with {@code null} as the customAlias.*/
+	public Url put(String fullUrl) {
+		return put(fullUrl, null);
+	}
+	
+	/** Creates a new url to be saved on the database, based on the fullUrl and optional customAlias.
+	 * In case the customAlias is not provided, an alias will be created.
+	 * @throws AliasAlreadyExistsException if there already is a url with the customAlias in the database.
+	 * */
 	@Transactional
 	public Url put(String fullUrl, String customAlias) {
 		

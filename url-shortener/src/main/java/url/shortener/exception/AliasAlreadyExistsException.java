@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class AliasAlreadyExistsException extends Error{
 
 	private static final long serialVersionUID = 1L;
-	private static final String DEFAULT_MESSAGE = "CUSTOM ALIAS \"%s\" ALREADY EXISTS";
+	private static final String DEFAULT_MESSAGE = "CUSTOM ALIAS %s ALREADY EXISTS";
 	
 	private String alias;
 	
