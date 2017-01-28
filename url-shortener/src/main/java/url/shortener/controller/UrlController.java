@@ -1,5 +1,7 @@
 package url.shortener.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import url.shortener.exception.AliasDoesNotExistException;
-import url.shortener.model.SuccessResponse;
 import url.shortener.model.Url;
+import url.shortener.model.UrlView;
 import url.shortener.service.UrlService;
 
 @RestController
@@ -25,16 +29,15 @@ public class UrlController {
 	}
 	
 	@RequestMapping(value = "/create", method = { RequestMethod.GET, RequestMethod.PUT })
-	public ResponseEntity<SuccessResponse> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
-
+	@JsonView(UrlView.Simple.class)
+	public ResponseEntity<Url> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
 		Url newUrl = urlService.put(url, alias);
-		SuccessResponse response = new SuccessResponse(newUrl);
-		
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		return ResponseEntity.status(HttpStatus.CREATED).body(newUrl);
 	}
 	
 	@RequestMapping(value = "/u/{alias}", method = RequestMethod.GET)
-	public ResponseEntity<SuccessResponse> retrieve(@PathVariable String alias) {
+	@JsonView(UrlView.Simple.class)
+	public ResponseEntity<Url> retrieveUrl(@PathVariable String alias) {
 		
 		Url url = urlService.retrieve(alias);
 		
@@ -42,8 +45,13 @@ public class UrlController {
 			throw new AliasDoesNotExistException(alias);
 		}
 		
-		SuccessResponse response = new SuccessResponse(url);
-		
-		return ResponseEntity.ok(response);
+		return ResponseEntity.ok(url);
+	}
+	
+	@RequestMapping(value = "/most-accessed", method = RequestMethod.GET)
+	@JsonView(UrlView.MostAccessed.class)
+	public ResponseEntity<List<Url>> getMostAccessed() {
+		List<Url> mostAccessed = urlService.getMostAccessed();
+		return ResponseEntity.ok(mostAccessed);
 	}
 }

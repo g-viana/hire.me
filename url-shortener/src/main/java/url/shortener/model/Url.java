@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @Entity
 public class Url {
 
@@ -14,14 +16,17 @@ public class Url {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@JsonView({UrlView.MostAccessed.class, UrlView.Simple.class})
 	@Column(nullable = false)
 	private String fullUrl;
 	
+	@JsonView({UrlView.MostAccessed.class, UrlView.Simple.class})
 	@Column(unique = true)
 	private String alias;
 	
 	private Boolean custom = Boolean.FALSE;
 	
+	@JsonView(UrlView.MostAccessed.class)
 	private Long numberOfUses = 0L;
 
 	public Long getId() {
