@@ -23,9 +23,9 @@ public class UrlService {
 		
 		Url url;
 		//see if it already exists:
-		url = repo.findWithCustomAlias(customAlias);
+		url = repo.findByAlias(customAlias);
 		if (url != null) {
-			throw new AliasAlreadyExistsException();
+			throw new AliasAlreadyExistsException(customAlias);
 		}
 		
 		//creates a new one:
@@ -33,11 +33,11 @@ public class UrlService {
 		url.setFullUrl(fullUrl);
 		
 		repo.save(url);
-		
+		//after saving, it has an id
 		if (customAlias == null) {
-			url.setShortUrl(ShortURL.encode(url.getId().intValue()));
+			url.setAlias(ShortURL.encode(url.getId().intValue()));
 		} else {
-			url.setShortUrl(customAlias);
+			url.setAlias(customAlias);
 			url.setCustom(true);
 		}
 		
@@ -46,7 +46,7 @@ public class UrlService {
 		return url;
 	}
 	
-	public Url retrieve() {
-		return null;
+	public Url retrieve(String alias) {
+		return repo.findByAlias(alias);
 	}
 }

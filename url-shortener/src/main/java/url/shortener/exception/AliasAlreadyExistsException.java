@@ -1,23 +1,31 @@
 package url.shortener.exception;
 
-public class AliasAlreadyExistsException extends RuntimeException{
+import org.springframework.http.HttpStatus;
+
+public class AliasAlreadyExistsException extends Error{
 
 	private static final long serialVersionUID = 1L;
-	private static final String DEFAULT_MESSAGE = "CUSTOM ALIAS ALREADY EXISTS";
+	private static final String DEFAULT_MESSAGE = "CUSTOM ALIAS \"%s\" ALREADY EXISTS";
 	
-	public AliasAlreadyExistsException() {
-		this(DEFAULT_MESSAGE);
+	private String alias;
+	
+	/**@param alias the alias that already exists*/
+	public AliasAlreadyExistsException(String alias) {
+		this.alias = alias;
 	}
 	
-	public AliasAlreadyExistsException(String message) {
-		super(message);
+	@Override
+	public int getCode() {
+		return 1;
+	}
+
+	@Override
+	public String getDescription() {
+		return String.format(DEFAULT_MESSAGE, alias);
 	}
 	
-	public AliasAlreadyExistsException(Throwable cause) {
-		super(cause);
-	}
-	
-	public AliasAlreadyExistsException(String message, Throwable cause) {
-		super(message, cause);
+	@Override
+	public HttpStatus getHttpStatus() {
+		return HttpStatus.CONFLICT;
 	}
 }

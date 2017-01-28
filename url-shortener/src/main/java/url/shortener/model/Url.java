@@ -17,8 +17,8 @@ public class Url {
 	@Column(nullable = false)
 	private String fullUrl;
 	
-	@Column(nullable = false)
-	private String shortUrl;
+	@Column
+	private String alias;
 	
 	private Boolean custom = Boolean.FALSE;
 	
@@ -40,12 +40,12 @@ public class Url {
 		this.fullUrl = fullUrl;
 	}
 
-	public String getShortUrl() {
-		return shortUrl;
+	public String getAlias() {
+		return alias;
 	}
 
-	public void setShortUrl(String shortUrl) {
-		this.shortUrl = shortUrl;
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 
 	public Boolean getCustom() {

@@ -1,22 +1,22 @@
 package url.shortener.model;
 
-public class Response {
+public class ShortenResponse {
 
 	private String alias;
-	private String shortUrl;
 	private String fullUrl;
+	
+	public ShortenResponse() {}
+	
+	public ShortenResponse(Url url) {
+		this.fullUrl = url.getFullUrl();
+		this.alias = url.getAlias();
+	}
 	
 	public String getAlias() {
 		return alias;
 	}
 	public void setAlias(String alias) {
 		this.alias = alias;
-	}
-	public String getShortUrl() {
-		return shortUrl;
-	}
-	public void setShortUrl(String shortUrl) {
-		this.shortUrl = shortUrl;
 	}
 	public String getFullUrl() {
 		return fullUrl;
