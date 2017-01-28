@@ -56,6 +56,12 @@ public class UrlService {
 	}
 	
 	public Url retrieve(String alias) {
-		return repo.findByAlias(alias);
+		Url url = repo.findByAlias(alias);
+		
+		if (url != null) {
+			repo.addUse(url.getId());
+		}
+		
+		return url;
 	}
 }

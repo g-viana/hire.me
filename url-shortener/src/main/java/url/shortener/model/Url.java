@@ -17,7 +17,7 @@ public class Url {
 	@Column(nullable = false)
 	private String fullUrl;
 	
-	@Column
+	@Column(unique = true)
 	private String alias;
 	
 	private Boolean custom = Boolean.FALSE;
