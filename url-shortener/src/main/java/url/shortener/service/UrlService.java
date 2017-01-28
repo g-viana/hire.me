@@ -55,6 +55,10 @@ public class UrlService {
 		return url;
 	}
 	
+	/** Retrieves an url from the database based on the alias.
+	 * <br><br>
+	 * If it exists, the use counter will be incremented*/
+	@Transactional
 	public Url retrieve(String alias) {
 		Url url = repo.findByAlias(alias);
 		

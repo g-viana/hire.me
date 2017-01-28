@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import url.shortener.model.ShortenResponse;
+import url.shortener.exception.AliasDoesNotExistException;
+import url.shortener.model.SuccessResponse;
 import url.shortener.model.Url;
 import url.shortener.service.UrlService;
 
@@ -24,21 +25,25 @@ public class UrlController {
 	}
 	
 	@RequestMapping(value = "/create", method = { RequestMethod.GET, RequestMethod.PUT })
-	public ResponseEntity<Object> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
+	public ResponseEntity<SuccessResponse> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
 
 		Url newUrl = urlService.put(url, alias);
-		ShortenResponse response = new ShortenResponse(newUrl);
+		SuccessResponse response = new SuccessResponse(newUrl);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
 	@RequestMapping(value = "/u/{alias}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getFullUrl(@PathVariable String alias) {
+	public ResponseEntity<SuccessResponse> retrieve(@PathVariable String alias) {
 		
-		@SuppressWarnings("unused")
 		Url url = urlService.retrieve(alias);
 		
+		if (url == null) {
+			throw new AliasDoesNotExistException(alias);
+		}
 		
-		return null;
+		SuccessResponse response = new SuccessResponse(url);
+		
+		return ResponseEntity.ok(response);
 	}
 }

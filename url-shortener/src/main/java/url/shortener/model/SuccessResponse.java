@@ -1,13 +1,13 @@
 package url.shortener.model;
 
-public class ShortenResponse {
+public class SuccessResponse {
 
 	private String alias;
 	private String fullUrl;
 	
-	public ShortenResponse() {}
+	public SuccessResponse() {}
 	
-	public ShortenResponse(Url url) {
+	public SuccessResponse(Url url) {
 		this.fullUrl = url.getFullUrl();
 		this.alias = url.getAlias();
 	}
