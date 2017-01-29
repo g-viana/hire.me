@@ -48,7 +48,7 @@
 	
 	//function that shortens the url and show the result to the user
 	$("btn-encurtar").addEventListener("click", function(){
-		
+		clearRedirect();
 		var url = urlInput.value;
 
 		if (!url) {
@@ -112,6 +112,7 @@
 	
 	//function that will get the most acessed urls and show then in the table
 	$("btn-mais-acessadas").addEventListener("click", function(){
+		clearRedirect();
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = handleMostAccessedResponse;
 		req.open(config.mostAccessed.method, config.mostAccessed.url, true);
@@ -123,6 +124,14 @@
 	
 	//do nothing on home page
 	router.on(function(){}).resolve();  
+	
+	var redirect;
+	
+	function clearRedirect() {
+		if (redirect) {
+			window.clearInterval(redirect);
+		}
+	}
 	
 	function handleRetrieveResponse() {
 		
@@ -138,7 +147,7 @@
 				   					   "Redirecionando em <span id='timer'>5</span> segundo(s)...";
 				var counter = 5;
 				var timer = $("timer");
-				setInterval(function() {
+				redirect = setInterval(function() {
 					timer.innerHTML = --counter;
 					if (counter === 0) {
 						window.location.href = resp.fullUrl;
