@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @SpringBootApplication
 public class UrlShortenerApplication {
@@ -23,17 +20,10 @@ public class UrlShortenerApplication {
 		return new WebMvcConfigurerAdapter() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("*");
+				registry.addMapping("/**")
+						.allowedOrigins("*")
+						.allowedMethods("PUT", "GET");
 			}
 		};
-	}
-	
-	@Bean
-	public UrlBasedViewResolver viewResolver() {
-		UrlBasedViewResolver resolver = new InternalResourceViewResolver();
-		resolver.setViewClass(JstlView.class);
-		resolver.setPrefix("/");
-		resolver.setSuffix("");
-		return resolver;
 	}
 }
