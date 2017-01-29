@@ -18,7 +18,7 @@ import url.shortener.model.Url;
 import url.shortener.model.UrlView;
 import url.shortener.service.UrlService;
 
-@RestController
+@RestController @RequestMapping("/")
 public class UrlController {
 
 	private UrlService urlService;
@@ -28,14 +28,14 @@ public class UrlController {
 		this.urlService = urlService;
 	}
 	
-	@RequestMapping(value = "/create", method = { RequestMethod.GET, RequestMethod.PUT })
+	@RequestMapping(method = RequestMethod.PUT)
 	@JsonView(UrlView.Simple.class)
 	public ResponseEntity<Url> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
 		Url newUrl = urlService.put(url, alias);
 		return ResponseEntity.status(HttpStatus.CREATED).body(newUrl);
 	}
 	
-	@RequestMapping(value = "/u/{alias}", method = RequestMethod.GET)
+	@RequestMapping(value = "{alias}", method = RequestMethod.GET)
 	@JsonView(UrlView.Simple.class)
 	public ResponseEntity<Url> retrieveUrl(@PathVariable String alias) {
 		

@@ -4,11 +4,11 @@
 	//info about the url shortener service
 	var config = {
 		put: {
-			url: "http://localhost:8080/create",
-			method: "GET"
+			url: "http://localhost:8080",
+			method: "PUT"
 		},
 		retrieve: {
-			url: "http://localhost:8080/u/",
+			url: "http://localhost:8080/",
 			method: "GET"
 		},
 		mostAccessed: {
