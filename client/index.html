@@ -8,6 +8,7 @@
 		
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-blue.min.css">
+		<link rel="stylesheet" href="https://cdn.rawgit.com/daneden/animate.css/master/animate.min.css">
 		<link rel="stylesheet" href="client.css">
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 	</head>
@@ -15,19 +16,19 @@
 		
 		<div class="demo-layout mdl-layout mdl-layout--fixed-header mdl-js-layout mdl-color--grey-100">
 			<div class="demo-ribbon"></div>
-      		<main class="demo-main mdl-layout__content">
+      		<main class="demo-main mdl-layout__content" style="background-color: #3F51B5;">
         		<div class="demo-container mdl-grid">
           			<div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
           			<div class="demo-content mdl-color--white mdl-shadow--4dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
           				<h3>URL Shortener</h3>
-            			<form>
-            				<div class="mdl-grid">
-	            				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--6-col">
+          				<div class="mdl-grid">
+          					<form class="mdl-cell mdl-cell--6-col">
+	            				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				    				<input class="mdl-textfield__input" type="text" id="url" name="url">
 				    				<label class="mdl-textfield__label" for="url">URL a ser encurtada</label>
 				  				</div>
 				  	
-				  				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--6-col">
+				  				<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
 				    				<input class="mdl-textfield__input" type="text" id="alias" name="alias">
 				    				<label class="mdl-textfield__label" for="alias">Alias customizado</label>
 				    				
@@ -35,21 +36,24 @@
 										Digite um texto customizado para aparecer no final da url encurtada
 									</div>
 				  				</div>
-            				</div>
-						</form>
-			
-						<div class="mdl-grid">
-							<button id="btn-encurtar" name="btn-encurtar" class="mdl-cell mdl-cell--4-col mdl-button mdl-button--colored mdl-js-button mdl-button--raised mdl-js-ripple-effect">Encurtar URL</button>
-						
-							<div class="mdl-cell mdl-cell-4-col"></div>
-							<button id="btn-mais-acessadas" name="btn-encurtar" class="mdl-cell mdl-cell--4-col mdl-button mdl-button--accent mdl-js-button mdl-button--raised mdl-js-ripple-effect">URLs mais acessadas</button>
-						</div>
-						
-						<br>
-						<div class="mdl-grid">
-							<div id="resposta" class="mdl-cell mdl-cell--12-col" style="white-space: pre-wrap;"></div>
-						</div>
-						
+				  				
+				  				<button type="button" id="btn-encurtar" name="btn-encurtar" class="mdl-button mdl-button--colored mdl-js-button mdl-button--raised mdl-js-ripple-effect">Encurtar URL</button>
+				  				
+				  				
+          					</form>
+          					<h5 id="resposta" class="animate mdl-cell mdl-cell--6-col"></h5>
+          				</div>
+  						<h5>10 URLs mais acessadas:</h5>
+       					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="white-space: pre-line; width=100%;">
+       						<thead>
+						    	<tr>
+						    		<th class="mdl-data-table__cell--non-numeric">Alias</th>
+						    		<th class="mdl-data-table__cell--non-numeric">URL Original</th>
+						    		<th>Acessos</th>
+						   		</tr>
+						   	</thead>
+						   	<tbody id="mais-acessadas"></tbody>
+       					</table>
           			</div>
       			</div>
       		</main>

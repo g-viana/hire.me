@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import url.shortener.exception.AliasDoesNotExistException;
 import url.shortener.model.Url;
+import url.shortener.model.UrlAndStatistics;
 import url.shortener.model.UrlView;
 import url.shortener.service.UrlService;
 
@@ -29,10 +30,18 @@ public class UrlController {
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	@JsonView(UrlView.Simple.class)
-	public ResponseEntity<Url> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
+	@JsonView(UrlView.UrlAndStatistics.class)
+	public ResponseEntity<UrlAndStatistics> shortenUrl(@RequestParam String url, @RequestParam(required=false) String alias) {
+		long start = System.currentTimeMillis();
+		
 		Url newUrl = urlService.put(url, alias);
-		return ResponseEntity.status(HttpStatus.CREATED).body(newUrl);
+		
+		long timeTaken = System.currentTimeMillis() - start;
+		
+		UrlAndStatistics response = new UrlAndStatistics(newUrl);
+		response.getStatistics().setTimeTaken(timeTaken);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 	
 	@RequestMapping(value = "{alias}", method = RequestMethod.GET)

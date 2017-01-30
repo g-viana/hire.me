@@ -6,4 +6,5 @@ public class UrlView {
 
 	public interface MostAccessed {}
 	public interface Simple {}
+	public interface UrlAndStatistics extends Simple {}
 }

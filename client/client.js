@@ -16,7 +16,7 @@
 			method: "GET"
 		}
 	}
-
+	
 	//shortcut to get elements by id
 	function $(id){
 		return document.getElementById(id);
@@ -25,6 +25,11 @@
 	var urlInput = $("url");
 	var aliasInput = $("alias");
 	var messageDiv = $("resposta");
+	
+	function animate() {
+		messageDiv.classList.remove("fadeIn");
+		messageDiv.classList.add("fadeIn");
+	}
 	
 	//handle response when shortening url
 	function handlePutResponse() {
@@ -36,7 +41,9 @@
 			if (this.status === 201) {
 				messageDiv.innerHTML = "Resultado:\r\n" + 
 									   "URL original: " + resp.fullUrl + "\r\n" +
-									   "URL curta: " + config.retrieve.url + resp.alias;
+									   "URL curta: " + config.retrieve.url + resp.alias + "\r\n" +
+									   "Tempo: " + resp.statistics.timeTaken + "ms";
+				animate();
 			} else {
 				messageDiv.innerHTML = "Ocorreu um erro:\r\n" +
 									   resp.description;
@@ -81,17 +88,7 @@
 			var resp = JSON.parse(this.responseText);
 			
 			if (this.status === 200) {
-				var table = "10 URLs mais acessadas:\r\n\r\n" +
-			 			    '<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">' +
-			 			    '	<thead>' +
-						    '		<tr>' +
-						    '			<th class="mdl-data-table__cell--non-numeric">Alias</th>' +
-						    '			<th class="mdl-data-table__cell--non-numeric">URL Original</th>' +
-						    '			<th>Nº de acessos</th>' +
-						    '		</tr>' +
-						    '	</thead>'+
-						    '	<tbody>';
-				
+				var table = "";
 				for (var i = 0; i < resp.length; i ++) {
 					var url = resp[i];
 					table += '<tr>';
@@ -99,25 +96,23 @@
 					table += '	<td class="mdl-data-table__cell--non-numeric">' + url.fullUrl + '</td>';
 					table += '	<td>' + url.numberOfUses + '</td>';
 					table += '</tr>';
-					//(i+1) +") " + config.retrieve.url + url.alias + " (" + url.fullUrl + ") com " + url.numberOfUses + " acessos.\r\n";
 				}
 				
-				table += "</tbody></table>";
-				
-				messageDiv.innerHTML = table;
+				$("mais-acessadas").innerHTML = table;
 			}
 			
 		}
 	}
 	
-	//function that will get the most acessed urls and show then in the table
-	$("btn-mais-acessadas").addEventListener("click", function(){
+	function getMostAcessed(){
 		clearRedirect();
 		var req = new XMLHttpRequest();
 		req.onreadystatechange = handleMostAccessedResponse;
 		req.open(config.mostAccessed.method, config.mostAccessed.url, true);
 		req.send();
-	});
+	}
+	
+	getMostAcessed();
 	
 	//route config
 	var router = new Navigo("", true);
@@ -140,18 +135,19 @@
 			var resp = JSON.parse(this.responseText);
 			
 			if (this.status === 200) {
-				messageDiv.innerHTML = "URL recuperada:\r\n" +
+				messageDiv.innerHTML = "Redirecionando em <span id='timer'>5</span> segundo(s)...<br><br>" +
+									   "URL recuperada:\r\n" +
 									   "Alias: "+ resp.alias + "\r\n" +
-									   "URL Original: " + resp.fullUrl +
-				   					   "<br>"+
-				   					   "Redirecionando em <span id='timer'>5</span> segundo(s)...";
+									   "URL Original: " + resp.fullUrl;
 				var counter = 5;
 				var timer = $("timer");
 				redirect = setInterval(function() {
 					timer.innerHTML = --counter;
 					if (counter === 0) {
 						window.location.href = resp.fullUrl;
+						clearRedirect();
 					}
+					
 				}, 1000);
 				
 				
