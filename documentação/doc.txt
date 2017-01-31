@@ -1,0 +1,31 @@
+- Sobre a aplicação:
+  Está usando Spring Boot com empacotamento em war.
+  Isso faz com que seja executável com um java -jar (tomcat embarcado) ou num tomcat externo.
+  
+  Para persistência dos dados está sendo usado o MySQL.
+  
+  Para o algoritmo de encurtar as urls, está fazendo um cálculo com base no id salvo no banco.
+  Por isso, os primeiros alias criados são bem curtos. Após pesquisar sobre algoritmos para encurtar URLs,
+  achei essa pergunta no StackOverflow: https://stackoverflow.com/questions/742013/how-to-code-a-url-shortener
+  A discussão fala sobre ser uma função bijetora e afins. A pergunta não fala sobre o alias customizado, mas por
+  ter um background teórico válido, resolvi usar a classe em Java fornecida.
+  
+  Os endpoints da api são:
+
+  PUT /{URL[, Alias]} -> encurtar url, passando a URL e opcionalmente o alias
+  GET /{Alias} -> recuperar uma url, passando o alias
+  GET /most-accessed -> recuperar as urls mais acessadas
+
+- Sobre os casos de teste:
+  Foram feitos com a técnica de particionamento por conjunto de equivalência
+
+- Sobre o client:
+  Foi feito em HTML/CSS/JS.
+  Foi usado o Material Design Lite como framework CSS. https://getmdl.io/
+  Foi usado um router em JS para pegar o alias da URL. https://github.com/krasimir/navigo
+  Para evitar ter que configurar um servidor, o caminho para recuperar urls deve ser:
+  index.html#/Alias (o # é obrigatório)
+
+- Sobre os diagramas de sequência:
+  Foram feitos no https://www.websequencediagrams.com/ como sugerido.
+  Separei o encurtar URL sem alias do com alias para o diagrama não ficar muito grande
