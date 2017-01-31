@@ -25,11 +25,7 @@
 	var urlInput = $("url");
 	var aliasInput = $("alias");
 	var messageDiv = $("resposta");
-	
-	function animate() {
-		messageDiv.classList.remove("fadeIn");
-		messageDiv.classList.add("fadeIn");
-	}
+
 	
 	//handle response when shortening url
 	function handlePutResponse() {
@@ -43,7 +39,6 @@
 									   "URL original: " + resp.fullUrl + "\r\n" +
 									   "URL curta: " + config.retrieve.url + resp.alias + "\r\n" +
 									   "Tempo: " + resp.statistics.timeTaken + "ms";
-				animate();
 			} else {
 				messageDiv.innerHTML = "Ocorreu um erro:\r\n" +
 									   resp.description;
@@ -136,8 +131,7 @@
 			
 			if (this.status === 200) {
 				messageDiv.innerHTML = "Redirecionando em <span id='timer'>5</span> segundo(s)...<br><br>" +
-									   "URL recuperada:\r\n" +
-									   "Alias: "+ resp.alias + "\r\n" +
+									   "Alias: "+ resp.alias + "<br>" +
 									   "URL Original: " + resp.fullUrl;
 				var counter = 5;
 				var timer = $("timer");
